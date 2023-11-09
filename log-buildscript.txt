@@ -1,0 +1,109 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 999B done
+#1 DONE 0.0s
+
+#2 [internal] load .dockerignore
+#2 transferring context: 88B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:14.21.3-alpine3.17
+#3 ...
+
+#4 [auth] library/node:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:14.21.3-alpine3.17
+#3 DONE 2.2s
+
+#5 [1/4] FROM docker.io/library/node:14.21.3-alpine3.17@sha256:434215b487a329c9e867202ff89e704d3a75e554822e07f3e0c0f9e606121b33
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 85.14kB 0.0s done
+#6 DONE 0.0s
+
+#7 [2/4] WORKDIR /app
+#7 CACHED
+
+#8 [3/4] COPY . .
+#8 DONE 0.2s
+
+#9 [4/4] RUN npm install --production --unsafe-perm && npm run build
+#9 0.935 
+#9 0.935 > docker-software-delivery@1.0.0 preinstall /app
+#9 0.935 > npx npm-force-resolutions
+#9 0.935 
+#9 5.038 npx: installed 6 in 4.048s
+#9 13.52 npm WARN read-shrinkwrap This version of npm is compatible with lockfileVersion@1, but package-lock.json was generated for lockfileVersion@2. I'll try to do my best with it!
+#9 22.49 added 473 packages from 332 contributors and audited 664 packages in 21.572s
+#9 22.64 
+#9 22.64 12 packages are looking for funding
+#9 22.64   run `npm fund` for details
+#9 22.64 
+#9 22.64 found 98 vulnerabilities (7 low, 34 moderate, 46 high, 11 critical)
+#9 22.64   run `npm audit fix` to fix them, or `npm audit` for details
+#9 22.87 
+#9 22.87 > docker-software-delivery@1.0.0 build /app
+#9 22.87 > node ./node_modules/gulp/bin/gulp.js
+#9 22.87 
+#9 23.23 [15:23:43] Using gulpfile /app/gulpfile.js
+#9 23.23 [15:23:43] Starting 'scripts'...
+#9 26.16 [15:23:46] Finished 'scripts' after 2.93 s
+#9 26.16 [15:23:46] Starting 'default'...
+#9 26.16 [15:23:46] Finished 'default' after 20 μs
+#9 DONE 26.3s
+
+#10 exporting to image
+#10 exporting layers
+#10 exporting layers 0.5s done
+#10 writing image sha256:f7b0fab1a2863b503ab8864bf7494b4ec99098d7d30bd86c299596b8986162ce done
+#10 naming to docker.io/library/item-app:v1 done
+#10 DONE 0.5s
+
+What's Next?
+  View a summary of image vulnerabilities and recommendations → docker scout quickview
+REPOSITORY                                      TAG         IMAGE ID       CREATED             SIZE
+item-app                                        v1          f7b0fab1a286   1 second ago        157MB
+ghcr.io/lastdough/a433-microservices/item-app   v1          168f7b2fef74   40 minutes ago      157MB
+hello-world                                     v2          81558d11651d   56 minutes ago      1.01GB
+<none>                                          <none>      f99ecc192ac1   About an hour ago   1.01GB
+ghcr.io/lastdough/test_flask/hello-world        <none>      955925531b63   2 hours ago         1.01GB
+test_flask-myapp                                latest      432eab1d7516   2 hours ago         1.01GB
+<none>                                          <none>      def5877315d5   3 hours ago         1.01GB
+nginx                                           latest      c20060033e06   8 days ago          187MB
+myjenkins-blueocean                             2.361.1-1   4beae798e208   2 weeks ago         808MB
+mysql                                           5.7         547b3c3c15a9   2 weeks ago         501MB
+grafana/grafana                                 latest      2fbe6143d3ba   2 weeks ago         399MB
+registry                                        2           ff1857193a0b   2 weeks ago         25.4MB
+jenkins/jenkins                                 lts         39353289457d   3 weeks ago         476MB
+prom/prometheus                                 latest      22010d1e5539   3 weeks ago         245MB
+continuumio/anaconda3                           latest      9b2dbfa02e16   5 weeks ago         5.17GB
+docker                                          dind        114405a05c1e   2 months ago        331MB
+busybox                                         latest      a416a98b71e2   3 months ago        4.26MB
+docker/volumes-backup-extension                 1.1.4       6872a696b721   5 months ago        119MB
+felipecruz/alpine-tar-zstd                      latest      31988344315d   13 months ago       6.99MB
+node                                            12-alpine   bb6d28039b8c   19 months ago       91MB
+mongo                                           3           2f21415cb85f   2 years ago         453MB
+justincormack/nsenter1                          latest      c81481184b1b   5 years ago         101kB
+Login Succeeded
+The push refers to repository [ghcr.io/lastdough/a433-microservices/item-app]
+097a0b428488: Preparing
+5f02459c8e55: Preparing
+b9df68903e60: Preparing
+31f710dc178f: Preparing
+a599bf3e59b8: Preparing
+e67e8085abae: Preparing
+f1417ff83b31: Preparing
+e67e8085abae: Waiting
+f1417ff83b31: Waiting
+a599bf3e59b8: Layer already exists
+b9df68903e60: Layer already exists
+31f710dc178f: Layer already exists
+e67e8085abae: Layer already exists
+f1417ff83b31: Layer already exists
+5f02459c8e55: Pushed
+097a0b428488: Pushed
+v1: digest: sha256:d11224df5c941e596987c1a69501985384259689f1043da16251a3afbe2e1714 size: 1787
+Docker image has been built and pushed to GitHub Packages successfully.
