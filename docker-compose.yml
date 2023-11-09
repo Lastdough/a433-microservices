@@ -1,0 +1,23 @@
+version: '3.8' # Specifies the version of the Docker Compose file format
+
+services: # Defines the services that make up your application
+
+  item-db: # The  database service for item-app using the mongo:3 image from Docker Hub
+    image: mongo:3 # Uses the mongo image version 3 
+    volumes:
+      - app-db:/data/db # Mounts the volume 'app-db' to the container's /data/db directory
+    restart: always # Ensures the container restarts if it crashes or if Docker restarts
+
+  item-app: # The app service 
+    image: ghcr.io/lastdough/a433-microservices/item-app:v1 # The image to use for the item-app container, from GitHub Container Registry
+    ports:
+      - "80:8080" # Maps port 8080 inside the container to port 80 on the host machine
+    depends_on:
+      - item-db # Indicates that item-app depends on item-db and should start after item-db
+    environment: # Environment variables 
+      - NODE_ENV=production # Sets the NODE_ENV to production mode
+      - DB_HOST=item-db # Sets the DB_HOST to use the service named item-db as the database host
+    restart: always # Ensures the container restarts if it crashes or if Docker restarts
+
+volumes: # Defines volumes for persistent data
+  app-db: # Names the volume 'app-db'; this is where the MongoDB data will persist
