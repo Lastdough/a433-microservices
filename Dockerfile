@@ -1,4 +1,6 @@
-FROM golang:1.15-alpine
+FROM golang:1.15-alpine3.14
+
+LABEL org.opencontainers.image.source="https://github.com/Lastdough/a433-microservices/tree/karsajobs"
 
 WORKDIR /go/src/github.com/dicodingacademy/karsajobs
 ENV GO111MODULE=on
