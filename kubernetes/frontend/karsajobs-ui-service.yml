@@ -1,13 +1,16 @@
-apiVersion: v1
-kind: Service
+apiVersion: v1  # API version for the Service resource
+kind: Service  # Indicates that this is a Service resource
 metadata:
-  name: karsajobs-frontend
+  name: karsajobs-frontend  # Name of the Service
+
 spec:
   selector:
-    app: karsajobs-frontend
-    tier: frontend
+    app: karsajobs-frontend  # Selector labels to match pods managed by this service
+    tier: frontend  # Additional label for better filtering and organization
+
   ports:
-  - protocol: "TCP"
-    port: 8000
-    targetPort: 8000 
-  type: NodePort
+  - protocol: "TCP"  # Network protocol (TCP/UDP) used by the service
+    port: 8000  # Port exposed by the service
+    targetPort: 8000  # Port on the pod to which the request gets forwarded
+
+  type: NodePort  # Type of Service; NodePort exposes the service on each Node’s IP

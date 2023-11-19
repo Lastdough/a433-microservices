@@ -1,10 +1,11 @@
-apiVersion: v1
-kind: Service
+apiVersion: v1  # API version for Service
+kind: Service  # Indicates this is a Service resource
 metadata:
-  name: mongo-service
+  name: mongo-service  # Name of the Service
+
 spec:
   selector:
-    role: mongo
+    role: mongo  # Selector labels to match pods managed by this service
   ports:
-  - protocol: TCP
-    port: 27017
+  - protocol: TCP  # Network protocol used by the service
+    port: 27017  # Port exposed by the service

@@ -1,26 +1,25 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps/v1  # API version for the Deployment resource
+kind: Deployment  # Indicates that this is a Deployment resource
 metadata:
-  name: karsajobs-frontend
+  name: karsajobs-frontend  # Name of the Deployment
+
 spec:
-  replicas: 1
+  replicas: 1  # Number of desired pod replicas
   selector:
     matchLabels:
-      app: karsajobs-frontend
-      tier: frontend
-      track: stable
-  template:
+      app: karsajobs-frontend  # Selector label to match pods
+      tier: frontend  # Additional label to specify the tier
+      track: stable  # Label to specify the track (like stable, canary, etc.)
+
+  template:  # Template for the pods that will be created
     metadata:
-      labels:
+      labels:  # Labels applied to all pods created by this Deployment
         app: karsajobs-frontend
         tier: frontend
         track: stable
     spec:
       containers:
-        - name: karsajobs-frontend
-          image: ghcr.io/lastdough/a433-microservices/karsajobs-ui:latest
-          ports:
-            - containerPort: 8000
-          # env:
-          #   - name: VUE_APP_BACKEND
-          #     value: http://localhost:35407
+      - name: karsajobs-frontend  # Name of the container within the pod
+        image: ghcr.io/lastdough/a433-microservices/karsajobs-ui:latest  # Docker image used for the container
+        ports:
+        - containerPort: 8000  # Port number the container will listen on

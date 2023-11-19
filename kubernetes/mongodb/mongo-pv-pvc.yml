@@ -1,29 +1,30 @@
-apiVersion: v1
-kind: PersistentVolume
+apiVersion: v1  # API version for PersistentVolume
+kind: PersistentVolume  # Indicates this is a PersistentVolume resource
 metadata:
-  name: mongo-pv
+  name: mongo-pv  # Name of the PersistentVolume
   labels:
-    type: local
+    type: local  # Label to identify the volume type
 spec:
-  storageClassName: manual
+  storageClassName: manual  # StorageClass used for provisioning
   capacity:
-    storage: 1Gi
+    storage: 1Gi  # Size of the storage allocated
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteOnce  # Volume can be mounted with read-write access by a single node
   hostPath:
-    path: "/mnt/data/mongo"
+    path: "/mnt/data/mongo"  # Path on the host where data is stored
+
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
+apiVersion: v1  # API version for PersistentVolumeClaim
+kind: PersistentVolumeClaim  # Indicates this is a PersistentVolumeClaim resource
 metadata:
-  name: mongo-pvc
+  name: mongo-pvc  # Name of the PersistentVolumeClaim
 spec:
-  storageClassName: manual
+  storageClassName: manual  # StorageClass used for provisioning
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteOnce  # Volume can be mounted with read-write access by a single node
   resources:
     requests:
-      storage: 1Gi
+      storage: 1Gi  # Requesting storage capacity
   selector:
     matchLabels:
-      type: local
+      type: local  # Selecting the volume based on the label

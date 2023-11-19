@@ -1,46 +1,52 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps/v1  # API version for the Deployment resource
+kind: Deployment  # Indicates that this is a Deployment resource
 metadata:
-  name: karsajobs-backend
+  name: karsajobs-backend  # Name of the Deployment
+
 spec:
-  replicas: 3
+  replicas: 3  # Number of desired pod replicas
   selector:
     matchLabels:
-      app: karsajobs-backend       
-      tier: backend
-      track: stable
-  template:
+      app: karsajobs-backend  # Selector label to match pods
+      tier: backend  # Additional label to specify the tier
+      track: stable  # Label to specify the track (like stable, canary, etc.)
+
+  template:  # Template for the pods that will be created
     metadata:
-      labels:
+      labels:  # Labels applied to all pods created by this Deployment
         app: karsajobs-backend
         tier: backend
         track: stable
     spec:
       containers:
-      - name: karsajobs-backend
-        image: ghcr.io/lastdough/a433-microservices/karsajobs:latest
+      - name: karsajobs-backend  # Name of the container within the pod
+        image: ghcr.io/lastdough/a433-microservices/karsajobs:latest  # Docker image used for the container
         ports:
-        - name : http
-          containerPort: 8080 
+        - name: http  # Name for the port
+          containerPort: 8080  # Port number the container will listen on
+
+        # Environment variables passed to the container
         env:
-          - name: APP_PORT
+          - name: APP_PORT  # Application port environment variable
             value: "8080"
-          - name: MONGO_HOST
+          - name: MONGO_HOST  # MongoDB host environment variable
             value: mongo-service  # Assuming the MongoDB service is named 'mongo-service'
-          - name: MONGO_USER
+          - name: MONGO_USER  # MongoDB user environment variable
             valueFrom:
               secretKeyRef:
-                name: mongo-secret  # The name of your MongoDB secret
+                name: mongo-secret  # Refers to the MongoDB secret for the username
                 key: MONGO_ROOT_USERNAME  # Key in the secret containing the username
-          - name: MONGO_PASS
+          - name: MONGO_PASS  # MongoDB password environment variable
             valueFrom:
               secretKeyRef:
-                name: mongo-secret  # The name of your MongoDB secret
+                name: mongo-secret  # Refers to the MongoDB secret for the password
                 key: MONGO_ROOT_PASSWORD  # Key in the secret containing the password
+
+        # Resource requests and limits for the container
         resources:
-          requests:
-            memory: "64Mi"
-            cpu: "250m"
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
+          requests:  # Minimum resources required
+            memory: "64Mi"  # Request 64Mi of memory
+            cpu: "250m"  # Request 250 millicpu units
+          limits:  # Maximum resources the container can use
+            memory: "128Mi"  # Limit to 128Mi of memory
+            cpu: "500m"  # Limit to 500 millicpu units

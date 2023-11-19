@@ -1,45 +1,46 @@
-apiVersion: apps/v1
-kind: StatefulSet
+apiVersion: apps/v1  # API version for StatefulSet
+kind: StatefulSet  # Indicates this is a StatefulSet resource
 metadata:
-  name: mongo
+  name: mongo  # Name of the StatefulSet
+
 spec:
-  serviceName: "mongo"
-  replicas: 1
+  serviceName: "mongo"  # Name of the service that the StatefulSet is associated with
+  replicas: 1  # Number of pod replicas
   selector:
     matchLabels:
-      role: mongo
+      role: mongo  # Label selector for the pods
   template:
     metadata:
       labels:
-        role: mongo
+        role: mongo  # Labels applied to all pods created by this StatefulSet
     spec:
       containers:
-      - name: mongo
-        image: mongo
+      - name: mongo  # Name of the container within the pod
+        image: mongo  # Docker image for MongoDB
         env:
-        - name: MONGO_INITDB_ROOT_USERNAME_FILE
+        - name: MONGO_INITDB_ROOT_USERNAME_FILE  # Environment variable for MongoDB username
           value: /etc/mongo-credentials/MONGO_ROOT_USERNAME
-        - name: MONGO_INITDB_ROOT_PASSWORD_FILE
+        - name: MONGO_INITDB_ROOT_PASSWORD_FILE  # Environment variable for MongoDB password
           value: /etc/mongo-credentials/MONGO_ROOT_PASSWORD
         volumeMounts:
-        - name: mongo-persistent-storage
+        - name: mongo-persistent-storage  # Mount for persistent storage
           mountPath: /data/db
-        - name: mongo-config
+        - name: mongo-config  # Mount for configuration
           mountPath: /config
-        - name: mongo-credentials
+        - name: mongo-credentials  # Mount for credentials
           mountPath: /etc/mongo-credentials
       volumes:
-      - name: mongo-credentials
+      - name: mongo-credentials  # Volume for MongoDB credentials
         secret:
           secretName: mongo-secret
-      - name: mongo-config
+      - name: mongo-config  # Volume for MongoDB config
         configMap:
           name: mongo-config
   volumeClaimTemplates:
   - metadata:
-      name: mongo-persistent-storage
+      name: mongo-persistent-storage  # Name for the volume claim
     spec:
-      accessModes: [ "ReadWriteOnce" ]
+      accessModes: [ "ReadWriteOnce" ]  # Access mode for the volume
       resources:
         requests:
-          storage: 1Gi
+          storage: 1Gi  # Requested storage capacity
