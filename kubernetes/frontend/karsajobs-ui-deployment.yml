@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: karsajobs-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: karsajobs-frontend
+      tier: frontend
+      track: stable
+  template:
+    metadata:
+      labels:
+        app: karsajobs-frontend
+        tier: frontend
+        track: stable
+    spec:
+      containers:
+        - name: karsajobs-frontend
+          image: ghcr.io/lastdough/a433-microservices/karsajobs-ui:latest
+          ports:
+            - containerPort: 8000
+          # env:
+          #   - name: VUE_APP_BACKEND
+          #     value: http://localhost:35407

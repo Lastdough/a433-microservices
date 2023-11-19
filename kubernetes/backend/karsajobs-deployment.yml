@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: karsajobs-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: karsajobs-backend       
+      tier: backend
+      track: stable
+  template:
+    metadata:
+      labels:
+        app: karsajobs-backend
+        tier: backend
+        track: stable
+    spec:
+      containers:
+      - name: karsajobs-backend
+        image: ghcr.io/lastdough/a433-microservices/karsajobs:latest
+        ports:
+        - name : http
+          containerPort: 8080 
+        env:
+          - name: APP_PORT
+            value: "8080"
+          - name: MONGO_HOST
+            value: mongo-service  # Assuming the MongoDB service is named 'mongo-service'
+          - name: MONGO_USER
+            valueFrom:
+              secretKeyRef:
+                name: mongo-secret  # The name of your MongoDB secret
+                key: MONGO_ROOT_USERNAME  # Key in the secret containing the username
+          - name: MONGO_PASS
+            valueFrom:
+              secretKeyRef:
+                name: mongo-secret  # The name of your MongoDB secret
+                key: MONGO_ROOT_PASSWORD  # Key in the secret containing the password
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
