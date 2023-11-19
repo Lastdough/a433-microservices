@@ -1,0 +1,57 @@
+# Workflow Name
+name: Build and Lint Workflow
+
+# Triggers the workflow when push or pull request 
+on: [push, pull_request]
+
+# Defines the jobs 
+jobs:
+  # Linting the Dockerfile
+  lint-dockerfile:
+    # using ubuntu as the type of runner that the job will execute on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2  # Checks out your repository under $GITHUB_WORKSPACE
+
+    - name: Install Hadolint
+      # Run a series of commands using the runners shell
+      run: |
+        wget -O /tmp/hadolint https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64
+        chmod +x /tmp/hadolint
+        sudo mv /tmp/hadolint /usr/local/bin/hadolint
+
+    - name: Lint Dockerfile
+      run: hadolint Dockerfile  # Lints the Dockerfile using Hadolint
+
+  # Job for building and pushing the Docker image for karsajobs-ui
+  build-app-karsajobs-ui:
+    runs-on: ubuntu-latest
+    # Environment variables
+    env:
+      IMAGE_NAME: karsajobs-ui
+      GITHUB_REPO: a433-microservices
+      GH_USERNAME: ${{ secrets.GH_USERNAME }}  # GitHub username, stored as a secret
+      GH_PASSWORD: ${{ secrets.GH_PASSWORD }}  # GitHub password or token, stored as a secret
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2  # Checks out your repository under $GITHUB_WORKSPACE
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1  # Sets up Docker Buildx
+
+    - name: Log in to GitHub Container Registry
+      uses: docker/login-action@v1  # Logs in against a Docker registry
+      with:
+        registry: ghcr.io  # GitHub Container Registry
+        username: ${{ env.GH_USERNAME }}  # Username for the registry
+        password: ${{ env.GH_PASSWORD }}  # Password or token for the registry
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2  # Docker build and push action
+      with:
+        push: true  # Enables pushing the image
+        tags: ghcr.io/${{ env.GH_USERNAME }}/${{ env.GITHUB_REPO }}/${{ env.IMAGE_NAME }}:latest  # Tags for the image
