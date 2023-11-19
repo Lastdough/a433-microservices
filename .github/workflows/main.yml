@@ -34,7 +34,7 @@ jobs:
       IMAGE_NAME: karsajobs-ui
       GITHUB_REPO: a433-microservices
       GH_USERNAME: ${{ secrets.GH_USERNAME }}  # GitHub username, stored as a secret
-      GH_PASSWORD: ${{ secrets.GH_PASSWORD }}  # GitHub password or token, stored as a secret
+      GH_PASSWORD: ${{ secrets.GH_TOKEN }}  # GitHub password or token, stored as a secret
 
     steps:
     - name: Checkout code
