@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipping-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shipping-service
+  template:
+    metadata:
+      labels:
+        app: shipping-service
+    spec:
+      containers:
+      - name: shipping-service
+        image: ghcr.io/lastdough/a433-microservices/shipping-service:latest
+        env:
+        - name: PORT
+          value: "3001"
+        - name: AMQP_USER
+          valueFrom:
+            secretKeyRef:
+              name: rabbitmq-secret
+              key: rabbitmq-username
+        - name: AMQP_PASSWORD
+          valueFrom:
+             secretKeyRef:
+              name: rabbitmq-secret
+              key: rabbitmq-password
+        - name: AMQP_URL
+          value: "amqp://$(AMQP_USER):$(AMQP_PASSWORD)@my-release-rabbitmq.default.svc.cluster.local:5672"
+        resources:
+          requests:  # Minimum resources required
+            memory: "64Mi"  # Request 64Mi of memory
+            cpu: "250m"  # Request 250 millicpu units
+          limits:  # Maximum resources the container can use
+            memory: "128Mi"  # Limit to 128Mi of memory
+            cpu: "500m"  # Limit to 500 millicpu units
