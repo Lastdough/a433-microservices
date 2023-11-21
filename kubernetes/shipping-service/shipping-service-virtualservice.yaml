@@ -1,15 +1,15 @@
 apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
+kind: VirtualService # Type of resource being created
 metadata:
-  name: shipping-service-virtualservice
+  name: shipping-service-virtualservice # Name of the VirtualService
 spec:
   hosts:
-  - "*"
+  - "*" # Hosts for which this VirtualService is applicable
   gateways:
-  - shipping-service-gateway
+  - shipping-service-gateway # Gateway associated with this VirtualService
   http:
   - route:
     - destination:
-        host: shipping-service.default.svc.cluster.local
+        host: shipping-service.default.svc.cluster.local # Destination host for the route
         port:
-          number: 3001
+          number: 3001 # Destination port for the route

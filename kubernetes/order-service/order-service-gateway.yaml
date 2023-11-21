@@ -1,14 +1,14 @@
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
+apiVersion: networking.istio.io/v1alpha3 
+kind: Gateway  # Type of resource being created
 metadata:
-  name: order-service-gateway
+  name: order-service-gateway # Name of the Gateway
 spec:
   selector:
-    istio: ingressgateway
+    istio: ingressgateway # Selector for the ingressgateway deployment
   servers:
   - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "*"
+      number: 80  # Port number for the Gateway (external port)
+      name: http # Name of the port
+      protocol: HTTP # Protocol used by the port
+    hosts: 
+    - "*" # Hosts for which this Gateway is applicable

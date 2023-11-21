@@ -1,34 +1,35 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: Deployment # Type of resource being created
 metadata:
-  name: shipping-service-deployment
+  name: shipping-service-deployment # Name of the Deployment
 spec:
-  replicas: 1
+  replicas: 1 # Number of desired pod replicas
   selector:
     matchLabels:
-      app: shipping-service
+      app: shipping-service # Selector to target pods with these labels
   template:
     metadata:
       labels:
-        app: shipping-service
+        app: shipping-service # Labels applied to the pods
     spec:
       containers:
-      - name: shipping-service
-        image: ghcr.io/lastdough/a433-microservices/shipping-service:latest
+      - name: shipping-service # Name of the container within the pod
+        image: ghcr.io/lastdough/a433-microservices/shipping-service:latest # Image to use for the container
         env:
         - name: PORT
-          value: "3001"
+          value: "3001" # Port on which the container will listen
         - name: AMQP_USER
           valueFrom:
             secretKeyRef:
-              name: rabbitmq-secret
+              name: rabbitmq-secret # Refers to the rabbitmq-secret for the AMQP_USER
               key: rabbitmq-username
         - name: AMQP_PASSWORD
           valueFrom:
              secretKeyRef:
-              name: rabbitmq-secret
+              name: rabbitmq-secret # Refers to the rabbitmq-secret for the AMQP_PASSWORD
               key: rabbitmq-password
         - name: AMQP_URL
+          # Constructs the full RabbitMQ URL using credentials and service FQDN for AMQP connections.
           value: "amqp://$(AMQP_USER):$(AMQP_PASSWORD)@my-release-rabbitmq.default.svc.cluster.local:5672"
         resources:
           requests:  # Minimum resources required

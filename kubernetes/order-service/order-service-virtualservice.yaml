@@ -1,18 +1,18 @@
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
+apiVersion: networking.istio.io/v1alpha3 
+kind: VirtualService  # Type of resource being created
 metadata:
-  name: order-service-virtualservice
+  name: order-service-virtualservice # Name of the VirtualService
 spec:
   hosts:
-  - "*"
+  - "*" # Hosts for which this VirtualService is applicable
   gateways:
-  - order-service-gateway
+  - order-service-gateway # Gateway associated with this VirtualService
   http:
   - match:
     - uri:
-        exact: /order
+        exact: /order  # Match requests with exact path /order
     route:
     - destination:
-        host: order-service.default.svc.cluster.local
+        host: order-service.default.svc.cluster.local # Destination host for the route
         port:
-          number: 3000  
+          number: 3000 # Destination port for the route
